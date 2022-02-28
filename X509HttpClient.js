@@ -123,14 +123,10 @@ X509HttpClient.prototype.request = function(url, data, callback, exheaders, exop
   debug('Source xml: %j', data);
   var self = this;
 
-  // Set SOAP 1.2 namespace
-  var xml = data.replace(
-    'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
-    'xmlns:soap="http://www.w3.org/2003/05/soap-envelope"');
   var action = exheaders.SOAPAction && exheaders.SOAPAction.replace(/"/g, '') || '';
 
   // Sign xml
-  self.signXML(xml, url, action)
+  self.signXML(data, url, action)
   .then(function (signed) {
 
     // Build request and set SOAP 1.2 header
